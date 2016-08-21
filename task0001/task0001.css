@@ -1,0 +1,17 @@
+h1 {
+	color: #00f;
+}
+h2 {
+	font-size: 14px;
+}
+p {
+	text-indent: 2em;
+	text-align: left;
+	line-height: 2em;
+	font: 17px/20px Helvetica, "Microsoft YaHei", sans-serif;
+	color: #ff0;
+	background: #000;
+}
+img {
+	border: 2px solid #f00;
+}

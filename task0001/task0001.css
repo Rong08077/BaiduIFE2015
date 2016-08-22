@@ -15,3 +15,22 @@ p {
 img {
 	border: 2px solid #f00;
 }
+
+
+/* div居中两种方法 */
+#div1 {
+    width: 960px;
+    background: #f00;
+    text-align: center;
+    margin: 10px auto;
+}
+
+#div2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+#div2in {
+    width: 960px;
+    background: #f00;
+    display: inline-block;
+}

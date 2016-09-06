@@ -116,14 +116,13 @@ function uniqArray1(arr) {
     return result;
 }
 
-
-// hash + es5
 // 速度最快
 function uniqArray2(arr) {
     var obj = {};
     for (var i = 0, len = arr.length; i < len; i++) {
         obj[arr[i]] = true;
     }
+    // ES5 返回 对象 所有可枚举自身属性 的属性名
     return Object.keys(obj);
 }
 
@@ -161,3 +160,79 @@ console.time('uniqArray3')
 console.log(uniqArray3(a).length);
 console.timeEnd('uniqArray3')
 */
+
+// 很多同学肯定对于上面的代码看不下去，接下来，我们真正实现一个trim
+// 对字符串头尾进行空格字符的去除、包括全角半角空格、Tab等，返回一个字符串
+// 尝试使用一行简洁的正则表达式完成该题目
+function trim(str) {
+    return str.replace(/^\s+|\s+$/g, '');
+}
+
+// 使用示例
+/*
+var str = '   hi!  ';
+str = trim(str);
+console.log(str); // 'hi!'
+*/
+
+// 实现一个遍历数组的方法，针对数组中每一个元素执行fn函数，并将数组索引和元素作为参数传递
+function each(arr, fn) {
+    for (var i = 0, len = arr.length; i < len; i++) {
+        fn(arr[i],1);
+    }
+}
+
+// 其中fn函数可以接受两个参数：item和index
+// 使用示例
+/*
+var arr = ['java', 'c', 'php', 'html'];
+function output(item) {
+    console.log(item)
+}
+each(arr, output);  // java, c, php, html
+
+// 使用示例
+var arr = ['java', 'c', 'php', 'html'];
+function output(item, index) {
+    console.log(index + ': ' + item)
+}
+each(arr, output);  // 0:java, 1:c, 2:php, 3:html
+*/
+
+// 获取一个对象里面第一层元素的数量，返回一个整数
+function getObjectLength(obj) {
+    var element = 0;
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            element++;
+        }
+    }
+    return element;
+}
+
+// 使用示例
+/*
+var obj = {
+    a: 1,
+    b: 2,
+    c: {
+        c1: 3,
+        c2: 4
+    }
+};
+console.log(getObjectLength(obj)); // 3
+*/
+
+// task 2.1.4
+// 判断是否为邮箱地址
+function isEmail(emailStr) {
+    // return (/^[a-z0-9]([-_\.]?[a-z0-9]+)*@([-_]?[a-z0-9]+)+[\.][a-z]{2,7}([\.][a-z]{2})?$/i).test(emsilStr);
+    return emailStr.search(/^[a-z0-9]([-_\.]?[a-z0-9]+)*@([-_]?[a-z0-9]+)+[\.][a-z]{2,7}([\.][a-z]{2})?$/i) !== -1;
+}
+
+// 判断是否为手机号
+function isMobilePhone(phone) {
+    phone = phone + '';
+    // return (/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/).test(phone);
+    return phone.search(/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/) !== -1;
+}

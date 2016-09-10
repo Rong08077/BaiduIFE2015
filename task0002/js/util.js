@@ -161,7 +161,6 @@ console.log(uniqArray3(a).length);
 console.timeEnd('uniqArray3')
 */
 
-// 很多同学肯定对于上面的代码看不下去，接下来，我们真正实现一个trim
 // 对字符串头尾进行空格字符的去除、包括全角半角空格、Tab等，返回一个字符串
 // 尝试使用一行简洁的正则表达式完成该题目
 function trim(str) {
@@ -236,3 +235,130 @@ function isMobilePhone(phone) {
     // return (/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/).test(phone);
     return phone.search(/^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/) !== -1;
 }
+
+// task 3.1
+function hasClass(element, className) {
+    var name = element.className.match(/\S+/g) || [];
+    if (name.indexOf(className) !== -1) {
+        return true;
+    }
+    return false;
+
+}
+// 为element增加一个样式名为newClassName的新样式
+function addClass(element, newClassName) {
+    if (!hasClass(element, newClassName)) {
+        element.className = trim(element.className + ' ' + newClassName);
+    }
+}
+
+// 移除element中的样式oldClassName
+function removeClass(element, oldClassName) {
+    if (hasClass(element, oldClassName)) {
+        element.className = trim(element.className.replace(oldClassName, ''));
+    }
+}
+
+// 判断siblingNode和element是否为同一个父元素下的同一级的元素，返回bool值
+function isSiblingNode(element, siblingNode) {
+    return element.parentNode === siblingNode.parentNode;
+}
+
+// 获取element相对于浏览器窗口的位置，返回一个对象{x, y}
+function getPosition(element) {
+    var x = 0;
+    var y = 0;
+    var current = element;
+
+    while (current !== null) {
+        x += current.offsetLeft;
+        y += current.offsetTop;
+        current = current.offsetParent;
+    }
+
+    var scrollLeft = document.body.scrollLeft + document.documentElement.scrollLeft;
+    var scrollTop = document.body.scrollTop + document.documentElement.scrollTop;
+
+    // element.getBoundingClientRect()
+
+    x -= scrollLeft;
+    y -= scrollTop;
+
+    return {
+        x: x,
+        y: y
+    }
+}
+
+
+// task 3.2
+// 实现一个简单的Query
+function $(selector) {
+    var ele = document;
+    var sele = selector.replace(/\s+/, ' ').split(' ');    // 去除多余的空格并分割
+
+    for (var i = 0, len = sele.length; i < len; i++) {
+        
+        switch (sele[i][0]) {    // 从子节点中查找
+            case '#':
+                ele = ele.getElementById(sele[i].substring(1));
+                break;
+            case '.':
+                ele = ele.getElementsByClassName(sele[i].substring(1))[0];
+                break;
+            case '[':
+                var valueLoc = sele[i].indexOf('=');
+                var temp = ele.getElementsByTagName('*');
+                var tLen = temp.length;
+                if (valueLoc !== -1) {
+                    var key = sele[i].substring(1, valueLoc);
+                    var value = sele[i].substring(valueLoc + 1, sele[i].length - 1);
+                    for (var j = 0; j < tLen; j++) {
+                        if (temp[j][key] === value) {
+                            ele = temp[j];
+                            break;
+                        }
+                    }
+                }
+                else {
+                    var key = sele[i].substring(1, sele[i].length - 1);
+                    for (var j = 0; j < tLen; j++) {
+                        if (temp[j][key]) {
+                            ele = temp[j];
+                            break;
+                        }
+                    }
+                }
+                break;
+            default :
+                ele = ele.getElementsByTagName(sele[i])[0];
+                break;
+        }
+    }
+
+    if (!ele) {
+        ele = null;
+    }
+
+    return ele;
+}
+/*
+// 可以通过id获取DOM对象，通过#标示，例如
+$("#adom"); // 返回id为adom的DOM对象
+
+// 可以通过tagName获取DOM对象，例如
+$("a"); // 返回第一个<a>对象
+
+// 可以通过样式名称获取DOM对象，例如
+$(".classa"); // 返回第一个样式定义包含classa的对象
+
+// 可以通过attribute匹配获取DOM对象，例如
+$("[data-log]"); // 返回第一个包含属性data-log的对象
+
+$("[data-time=2015]"); // 返回第一个包含属性data-time且值为2015的对象
+
+// 可以通过简单的组合提高查询便利性，例如
+$("#adom .classa"); // 返回id为adom的DOM所包含的所有子节点中，第一个样式定义包含classa的对象
+*/
+
+

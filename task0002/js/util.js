@@ -406,6 +406,11 @@ $.click($("#item2"), clickListener);
 $.click($("#item3"), clickListener);
 */
 
+/*
+each($("#list").getElementsByTagName('li'), function(li) {
+    addClickEvent(li, clickListener);
+*/
+
 // 我们通过自己写的函数，取到id为list这个ul里面的所有li，然后通过遍历给他们绑定事件。这样我们就不需要一个一个去绑定了。
 function clickListener(event) {
     console.log(event);
@@ -415,8 +420,15 @@ function renderList() {
     $("#list").innerHTML = '<li>new item</li>';
 }
 
-// 我们增加了一个按钮，当点击按钮时，改变list里面的项目，这个时候你再点击一下li，绑定事件不再生效了。
-// 那是不是我们每次改变了DOM结构或者内容后，都需要重新绑定事件呢？当然不会这么笨，接下来学习一下事件代理，然后实现下面新的方法。
+function init() {
+    each($("#list").getElementsByTagName('li'), function(item) {
+        $.click(item, clickListener);
+    });
+
+    $.click($("#btn"), renderList);
+}
+
+// 事件委托，解决事件处理程序过多
 function delegateEvent(element, tag, eventName, listener) {
     addEvent(element, eventName, function (e) {
         var event = e || window.event;
@@ -428,12 +440,49 @@ function delegateEvent(element, tag, eventName, listener) {
     });
 }
 
+// 事件委托
 $.delegate = delegateEvent;
 
 // 使用示例
-// 还是上面那段HTML，实现对list这个ul里面所有li的click事件进行响应
 /*
+$.click($("#btn"), renderList);
 $.delegate($("#list"), "li", "click", clickListener);
 */
 
+// task 5.1
+// 判断是否为IE浏览器，返回-1或者版本号
+function isIE() {
+    return /msie (\d+\.\d+)/i.test(navigator.userAgent)
+        ? (document.documentMode || + RegExp['\x241']) : -1;
+}
 
+
+// 设置cookie
+function isValidCookieName(cookieName) {
+    return (new RegExp('^[^\\x00-\\x20\\x7f\\(\\)<>@,;:\\\\\\\"\\[\\]\\?=\\{\\}\\/\\u0080-\\uffff]+\x24'))
+        .test(cookieName);
+}
+
+function setCookie(cookieName, cookieValue, expiredays) {
+    if (!isValidCookieName(cookieName)) {
+        return;
+    }
+
+    var exdate = '';
+    if (expiredays) {
+        exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
+        var expires = ';expires=' + exdate.toUTCString();     // toGMTString is deprecated and should no longer be used, it's only there for backwards compatibility, use toUTCString() instead
+    }
+    document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + expires;    // 废弃的 escape() 方法生成新的由十六进制转移序列替换的字符串. 使用 encodeURI 或 encodeURIComponent 代替
+}
+
+// 获取cookie值
+function getCookie(cookieName) {
+    if (!isValidCookieName(cookieName)) {
+        return null;
+    }
+
+    var re = new RegExp(cookieName + '=(.*?)($|;)');
+    return re.exec(document.cookie)[1] || null;
+}

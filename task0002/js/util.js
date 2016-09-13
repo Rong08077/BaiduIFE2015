@@ -486,3 +486,65 @@ function getCookie(cookieName) {
     var re = new RegExp(cookieName + '=(.*?)($|;)');
     return re.exec(document.cookie)[1] || null;
 }
+
+// task 6.1
+// 学习Ajax，并尝试自己封装一个Ajax方法。
+function ajax(url, options) {
+    // 创建对象
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    }
+    else {        //兼容 IE5 IE6
+        xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+
+    // 处理data
+    if (options.data) {
+        var dataarr = [];
+        for (var item in options.data) {
+            dataarr.push(item + '=' + encodeURI(options.data[item]));
+        }
+        var data = dataarr.join('&');
+    }
+
+    // 处理type
+    if (!options.type) {
+        options.type = 'GET';
+    }
+    options.type = options.type.toUpperCase();
+
+    // 发送请求
+    if (options.type === 'GET') {
+        var myURL = '';
+        if (options.data) {
+            myURL = url + '?' + data;
+        }
+        else {
+            myURL = url;
+        }
+        xmlhttp.open('GET', myURL, true);
+        xmlhttp.send();
+    }
+    else if (options.type === 'POST') {
+        xmlhttp.open('POST', url, true);
+        xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xmlhttp.send(data);
+    }
+
+    // readyState
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4) {
+            if (xmlhttp.status === 200) {
+                if (options.onsuccess) {
+                    options.onsuccess(xmlhttp.responseText, xmlhttp.responseXML);
+                }
+            }
+            else {
+                if (options.onfail) {
+                    options.onfail();
+                }
+            }
+        }
+    }
+}

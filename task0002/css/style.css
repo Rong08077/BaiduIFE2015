@@ -146,3 +146,26 @@ body {
 .reuslt {
     word-spacing:25px;
 }
+
+/* task0002_2 */
+.myText {
+	width: 980px;
+	padding: 7px;
+	outline: none;
+	border: 1px solid #d9d9d9;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size: 16px;
+	background-color: #fff;
+	border-top-color: #c0c0c0;
+}
+
+.myText:hover {
+    border: 1px solid #b9b9b9;
+    border-top-color: #a0a0a0;
+}
+
+.myText:focus {
+    border: 1px solid #4d90fe;
+}

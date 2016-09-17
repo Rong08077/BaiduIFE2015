@@ -2,7 +2,7 @@ function showHobby() {
 	var text = $('.myTextArea').value;
 	text = text.replace(/[\s,，、;；]+/g, ' ');    
 	var hobby = text.split(' ');                  
-	hobby = uniqArray1(hobby);     
+	hobby = uniqArray2(hobby);     
 
 	if (hobby.length < 1) {
 		$('.error').innerHTML = '请输入至少一个爱好';		

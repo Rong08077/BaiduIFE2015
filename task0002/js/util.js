@@ -122,7 +122,7 @@ function uniqArray2(arr) {
     for (var i = 0, len = arr.length; i < len; i++) {
         obj[arr[i]] = true;
     }
-    // ES5 返回 对象 所有可枚举自身属性 的属性名
+    // ES5 返回 对象 所有可枚举 自身属性 的属性名组成的数组
     return Object.keys(obj);
 }
 

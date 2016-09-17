@@ -169,3 +169,63 @@ body {
 .myText:focus {
     border: 1px solid #4d90fe;
 }
+
+/* task0002_3 */
+.container {
+    width: 600px;
+    height: 375px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #000;
+}
+
+.list {
+    position: absolute;
+    width: 12000px;
+    z-index: 1;
+}
+
+.list img {
+    width: 600px;
+    float: left;
+}
+
+.button {
+    position: absolute;
+    bottom: 20px;
+    left: 250px;
+    z-index: 2;
+}
+
+.button li {
+    cursor: pointer;
+    float: left;
+    border: 1px solid #fff;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+    margin-right: 5px;
+}
+
+.button .light {
+    background: #0f0;
+}
+
+.arrow {
+    position: absolute;
+    cursor: pointer;
+    float: left;
+    width: 150px;
+    height: 375px;
+    z-index: 2;
+    color: #000;
+}
+
+#prev {
+    left: 0;
+}
+
+#next {
+    right: 0;
+}

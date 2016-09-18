@@ -43,8 +43,8 @@ window.onload = function () {
         }
         go();
     }
-
-    $.click(prev, function () {     // 前进后退按钮
+    // 前进按钮事件绑定
+    $.click(prev, function () {     
         if (!animated) {
             animate(600);
             index--;
@@ -54,7 +54,8 @@ window.onload = function () {
             showButton();
         }
     });
-    $.click(next, function () {
+    // 后退按钮事件绑定
+    $.click(next, function () {  
         if (!animated) {
             animate(-600);
             index++;
@@ -65,7 +66,8 @@ window.onload = function () {
         }
     });
 
-    for (var i = 0, len = button.length; i < len; i++) {     // 点击小圆点
+    // 循环 小圆点事件绑定
+    for (var i = 0, len = button.length; i < len; i++) {     
         $.click(button[i], function() {
             if (!animated) {
                 var toIndex = parseInt(this.getAttribute('index'));

@@ -4,9 +4,32 @@
 	<meta charset="UTF-8">
 	<title>GTD Tools</title>
 	<link rel="shortcut icon" href="imgs/bitbug_favicon.ico">
-
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/fontello.css">
 </head>
 <body>
-
+	<header>
+		<h1>GTD Tools</h1>
+	</header>
+	<div class="content">
+		<div class="type">
+			<ul class="type-wrap">
+				<li>
+					<h2 id="type-all" onclick="typeClick(this)"></h2>
+				</li>
+				<li>
+					<h2><i class="icon-menu"></i>分类列表</h2>
+					<ul class="item-wrap"></ul>
+				</li>
+			</ul>
+			<div class="add" onclick="newType()">
+				<i class="icon-plus"></i>
+			</div>
+		</div>
+		<div class="task"></div>
+		<div class="details"></div>
+	</div>
+	<script src="js/gtd.js"></script>
+	<script src="js/util.js"></script>
 </body>
 </html>

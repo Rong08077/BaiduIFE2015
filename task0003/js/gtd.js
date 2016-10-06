@@ -211,7 +211,7 @@ function setNum() {
 	var sum;
 	for (var i = 0; i < cate.length; i++) {
 		sum = 0;
-		for (var j = 0; j < cate[i].child.length; j++) {
+		for (var j = 0,len = cate[i].child.length ; j < len ; j++) {
 			var childNum = getObjByKey(childCate, 'id', cate[i].child[j]).child.length;
 			sum += childNum;
 		}

@@ -206,7 +206,7 @@ function makeTask() {
 }
 
 
-// 刷新分类对象的num属性
+// 得到分类对象的num属性
 function setNum() {
 	var sum;
 	for (var i = 0; i < cate.length; i++) {
@@ -219,7 +219,7 @@ function setNum() {
 	}
 }
 
-// 根据某对象的某属性得到某对象
+// 根据childCate对象的id属性得到某对象
 function getObjByKey(obj, key, value) {
 	for (var i = 0; i < obj.length; i++) {
 		if (obj[i][key] === value) {

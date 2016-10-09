@@ -1,5 +1,5 @@
 /**
- * Created by DIYgod on 15/5/10.
+ * Created by Rong08077
  */
 
 // localStorage + JSON 存储任务数据
@@ -146,7 +146,20 @@ function makeType() {
 		$('h2').click();
 	}
 
-	makeTask();
+	//makeTask();
+}
+
+// 任务分类列表点击效果
+function typeClick(ele) {
+	var otherChoose = ele.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
+	for (var i = 0; i < otherChoose.length; i++) {
+		if (otherChoose[i].className === 'choose') {
+			otherChoose[i].className = '';
+			break;
+		}
+	}
+	ele.className = 'choose';
+	//makeTask();
 }
 
 // 生成任务列表
@@ -226,6 +239,90 @@ function getObjByKey(obj, key, value) {
 			return obj[i];
 		}
 	}
+}
+
+// 新分类弹窗，编辑新分类
+function newType() {
+	$('.pop').style.display = 'block';
+	$('.overlay').style.display = 'block';
+	$('.pop-name').innerHTML = '新增分类';
+	var html = ''
+		+ '<p>'
+		+     '新分类名称:'
+		+     '<input type="text" class="myText typeText" placeholder="在此输入新分类的名称">'
+		+ '</p>'
+		+ '<p>'
+		+     '新分类父节点:'
+		+     '<select class="mySelect">'
+		+         '<option value="-1">无</option>'
+
+	var itemWrap = $('.item-wrap');
+	var itemName = itemWrap.getElementsByTagName('h3');
+	for (var i = 0; i < itemName.length; i++) {
+		html += ''
+			+         '<option value="'+ i +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
+	}
+
+	html += ''
+		+     '</select>'
+		+ '</p>'
+		+ '<p class="error"></p>'
+		+ '<button class="myButton btn1" onclick="closePop()">取消</button>'
+		+ '<button class="myButton btn2" onclick="typeAdd()">确定</button>'
+
+	$('.pop-content').innerHTML = html;
+}
+
+// 弹窗关闭按钮
+function closePop() {
+	$('.pop').style.display = 'none';
+	$('.overlay').style.display = 'none';
+}
+
+// 添加新分类
+function typeAdd() {
+	var name = $('.typeText').value;
+	var fatherName = $('.mySelect').value;
+	if (name.length === 0) {              // 检测输入合法性
+		$('.error').innerHTML = '分类名称不能为空';
+		return;
+	}
+	else if (name.length >= 15) {
+		$('.error').innerHTML = '分类名称不能多于15个字符';
+		return;
+	}
+	else if (getObjByKey(cate, 'name', name)) {
+		$('.error').innerHTML = '检测到相同名称的分类已存在';
+		return;
+	}
+	else if (getObjByKey(childCate, 'name', name)) {
+		$('.error').innerHTML = '检测到相同名称的子分类已存在';
+		return;
+	}
+	if (fatherName === '-1') {             // 添加分类
+		var newCate = {
+			"id": cate[cate.length - 1].id + 1,
+			"name": name,
+			"num": 0,
+			"child": []
+		};
+		cate.push(newCate);
+		save();
+	}
+	else {                                 // 添加子分类
+		var newChild = {
+			"id": childCate[childCate.length - 1].id + 1,
+			"name": name,
+			"child": [],
+			"father": cate[$('.mySelect').value].id
+		};
+		var father = getObjByKey(cate, 'id', newChild.father)   // 父节点对象
+		father.child.push(newChild.id);                       // 在父节点中登记
+		childCate.push(newChild);
+		save();
+	}
+	makeType();
+	closePop();
 }
 
 window.onload = function () {

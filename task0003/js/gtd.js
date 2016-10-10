@@ -307,7 +307,7 @@ function typeAdd() {
 			"child": []
 		};
 		cate.push(newCate);
-		save();
+		//save();
 	}
 	else {                                 // 添加子分类
 		var newChild = {
@@ -319,7 +319,7 @@ function typeAdd() {
 		var father = getObjByKey(cate, 'id', newChild.father)   // 父节点对象
 		father.child.push(newChild.id);                       // 在父节点中登记
 		childCate.push(newChild);
-		save();
+		//save();
 	}
 	makeType();
 	closePop();

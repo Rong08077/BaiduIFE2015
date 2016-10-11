@@ -326,7 +326,7 @@ function typeAdd() {
 }
 
 window.onload = function () {
-	if (!localStorage.getItem('cate')) {  // 页面之前没被访问过的情况，载入默认值
+	if (!localStorage.getItem('cate')) {
 		localStorage.cate = cateText;
 		localStorage.childCate = childCateText;
 		localStorage.task = taskText;

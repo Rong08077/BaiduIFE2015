@@ -1,5 +1,5 @@
 /**
- * Created by DIYgod on 15/5/10.
+ * Created by Rong08077
  */
 
 // localStorage + JSON 存储任务数据
@@ -254,7 +254,9 @@ function newType() {
 	var itemName = itemWrap.getElementsByTagName('h3');
 	for (var i = 0; i < itemName.length; i++) {
 		html += ''
-			+         '<option value="'+ i +'">' + itemName[i].getElementsByTagName('span')[0].innerHTML + '</option>'
+			 +     '<option value="'+ i +'">'
+			 +        itemName[i].getElementsByTagName('span')[0].innerHTML
+			 +      '</option>'
 	}
 
 	html += ''

@@ -286,22 +286,9 @@ h6,
 	box-sizing: border-box;
 }
 
-.overlay{
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(0,0,0,.7);
-	z-index: 9;
-}
-
 /* 弹出层样式 */
-.pop{
-	position: relative;
+.pop {
 	display: none;
-	margin: auto;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -309,6 +296,7 @@ h6,
 	bottom: 0;
 	width: 400px;
 	height: 200px;
+	margin: auto;
 	background: #fff;
 	z-index: 10;
 	border-radius: 5px;
@@ -327,9 +315,9 @@ h6,
 	position: absolute;
 	top: 7px;
 	left: 7px;
-	background: #ef5350;
 	height: 12px;
 	width: 12px;
+	background: #ef5350;
 	border-radius: 100%;
 	border: 1px solid #b71c1c;
 }
@@ -416,6 +404,17 @@ h6,
 
 .input-error {
 	border-color: #d50000;
+}
+
+.overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,.7);
+	z-index: 9;
 }
 
 .taskText {

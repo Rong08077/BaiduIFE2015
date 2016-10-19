@@ -18,16 +18,21 @@
 					<h2 id="type-all" onclick="typeClick(this)"></h2>
 				</li>
 				<li>
-					<h2><i class="icon-menu-1"></i>分类列表</h2>
+					<h2><i class="icon-menu-outline"></i>分类列表</h2>
 					<ul class="item-wrap"></ul>
 				</li>
 			</ul>
-			<div class="add" onclick="newType()"></div>
-			<i class="icon-cart-plus"></i>
+			<div class="add" onclick="newType()">
+				<i class="icon-cart-plus"></i>
+			</div>
 		</div>
 	</div>
 	<div class="pop">
-
+		<div class="pop-title">
+			<div class="pop-close" onclick="closePop()"></div>
+			<div class="pop-name"></div>
+		</div>
+		<div class="pop-content"></div>
 	</div>
 	<div class="overlay"></div>
 	<script src="js/gtd.js"></script>

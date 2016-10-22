@@ -105,6 +105,43 @@ function makeType() {
 	html = html.replace(/<i class="delete icon-minus-circled" onclick="del\(event, this\)"><\/i>/, '');    // 去掉默认子分类的删除按钮
 	$('.item-wrap').innerHTML = html;
 
+	if (oldChoose) {
+		var tag = oldChoose.tagName.toLowerCase();
+		var name = oldChoose.getElementsByTagName('span')[0].innerHTML;
+		var isClick = false;
+		switch (tag) {
+			case 'h2':
+				$('h2').click();
+				isClick = true;
+				break;
+			case 'h3':
+				var cateEle = document.getElementsByTagName('h3');
+				for (var i = 0; i < cateEle.length; i++) {
+					if (cateEle[i].getElementsByTagName('span')[0].innerHTML === name ) {
+						cateEle[i].click();
+						isClick = true;
+					}
+				}
+				break;
+			case 'h4':
+				var childEle = document.getElementsByTagName('h4');
+				for (var i = 0; i < childEle.length; i++) {
+					if (childEle[i].getElementsByTagName('span')[0].innerHTML === name) {
+						childEle[i].click();
+						isClick = true;
+					}
+				}
+				break;
+		}
+		if (!isClick) {                                   // 之前选中的元素不再显示的情况
+			$('h2').click();
+		}
+	}
+	else {
+		$('h2').click();
+	}
+
+
 }
 
 // 得到分类对象的num属性
@@ -127,6 +164,20 @@ function getObjByKey(obj, key,value) {
 			return obj[i];
 		}
 	}
+}
+
+// 点击效果
+function typeClick(ele) {
+	var temp = ele.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;
+	var otherChoose = ele.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
+	for (var i = 0;i < otherChoose.length; i++) {
+		if (otherChoose[i].className === 'choose') {
+			otherChoose[i].className = '';
+			break;
+		}
+	}
+	ele.className = 'choose';
+
 }
 
 window.onload = function() {

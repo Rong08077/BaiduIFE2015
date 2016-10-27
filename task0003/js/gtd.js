@@ -179,6 +179,46 @@ function typeClick(ele) {
 	ele.className = 'choose';
 
 }
+// newType 弹窗
+function newType() {
+	$('.pop').style.display = 'block';
+	$('.overlay').style.display = 'block';
+	$('.pop-name').innerHTML = '新增分类';
+	var html = ''
+		+ '<p>'
+		+     '新分类名称:'
+		+     '<input type="text" class="myText typeText" placeholder="在此输入新分类的名称">'
+		+ '</p>'
+		+ '<p>'
+		+     '新分类父节点:'
+		+     '<select class="mySelect">'
+		+         '<option value="-1">无</option>'
+
+	var itemWrap = $('.item-wrap');
+	var itemName = itemWrap.getElementsByTagName('h3');
+	for (var i = 0; i < itemName.length; i++) {
+		html += ''
+			+     '<option value="'+ i +'">'
+			+        itemName[i].getElementsByTagName('span')[0].innerHTML
+			+      '</option>'
+	}
+
+	html += ''
+		+     '</select>'
+		+ '</p>'
+		+ '<p class="error"></p>'
+		+ '<button class="myButton btn1" onclick="closePop()">取消</button>'
+		+ '<button class="myButton btn2" onclick="typeAdd()">确定</button>'
+
+	$('.pop-content').innerHTML = html;
+
+}
+
+//关闭 弹窗
+function closePop() {
+	$('.pop').style.display = 'none';
+	$('.overlay').style.display = 'none';
+}
 
 window.onload = function() {
 	//h5 web 存储

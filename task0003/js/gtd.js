@@ -220,6 +220,63 @@ function closePop() {
 	$('.overlay').style.display = 'none';
 }
 
+// 新增 分类
+function typeAdd() {
+	var name = $('.typeText').value;
+	var fatherName = $('.mySelect').value;
+	if (name.length === 0) {
+		$('.error').innerHTML = '分类名称不能为空';
+		return;
+	}
+	else if (name.length >= 15) {
+		$('.error').innerHTML = '分类名称不能多于15个字符';
+		return;
+	}
+	else if (getObjByKey(cate, 'name', name)) {
+		$('.error').innerHTML = '检测到相同名称的分类已存在';
+		return;
+	}
+	else if (getObjByKey(childCate, 'name', name)) {
+		$('.error').innerHTML = '检测到相同名称的子分类已存在';
+		return;
+	}
+	if (fatherName === '-1') {
+		var newCate = {
+			"id": cate[cate.length - 1].id + 1,
+			"name": name,
+			"num": 0,
+			"child": []
+		};
+		cate.push(newCate);
+		save();
+	}
+	else {
+		var newChild = {
+			"id": childCate[childCate.length - 1].id + 1,
+			"name": name,
+			"child": [],
+			"father": cate[$('.mySelect').value].id
+		};
+		var father = getObjByKey(cate, 'id', newChild.father)   // 父节点对象
+		father.child.push(newChild.id);                       // 在父节点中登记
+		childCate.push(newChild);
+		save();
+	}
+	makeType();
+	closePop();
+
+}
+
+//保存
+function save() {
+	localStorage.childCate = JSON.stringify(childCate);
+	localStorage.cate = JSON.stringify(cate);
+	localStorage.task = JSON.stringify(task);
+}
+
+
+
+
 window.onload = function() {
 	//h5 web 存储
 	if(!localStorage.getItem('cate')){

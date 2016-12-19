@@ -323,3 +323,7 @@ header h1 {
 	line-height: 25px;
 	padding-left: 25px;
 }
+
+.task .icon-check {
+	display: none;
+}

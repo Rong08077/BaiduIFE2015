@@ -267,6 +267,162 @@ function typeAdd() {
 
 }
 
+//生成任务详细列表
+function makeType() {
+	var oldChoose =$('.task-wrap .choose');
+	$('.status li').click();
+	var ele = $('.type-wrap .choose');
+	var eleTag = ele.tagName.toLowerCase();
+	var name = ele.getElementsByTagName('span')[0].innerHTML;
+	var taskIdArr = [];
+	switch (eleTag) {
+		case 'h2':
+			for (var i = 0; i < task.length; i++) {      //所有任务
+				taskIdArr.push(task[i].id);
+			}
+			makeTaskById(taskIdArr);
+			break;
+		case 'h3':
+			var cateObj = getObjByKey(cate, 'name', name);     // 根据 name 得到任务分类对象
+			for (var i = 0; i < cateObj.child.length; i++) {
+				var childObj = getObjByKey(childCate, 'id', cateObj.child[i]);  // 得到任务子分类对象
+				for (var j = 0; j < childObj.child.length; j++) {
+					taskIdArr.push(childObj.child[j]);
+				}
+			}
+			makeTaskById(taskIdArr);
+			break;
+		case 'h4':
+			var childObj = getObjByKey(childCate, 'name', name);  // 得到任务子分类对象
+			for (var i = 0; i < childObj.child.length; i++) {
+				taskIdArr.push(childObj.child[i]);
+			}
+			makeTaskById(taskIdArr);
+			break;
+	}
+	if (oldChoose) {                                          // 恢复之前选中的选项
+		var childEle = document.getElementsByTagName('h6');
+		var oldName = oldChoose.getElementsByTagName('span')[0].innerHTML;
+		var isClick = false;
+		for (var i = 0; i < childEle.length; i++) {
+			if (childEle[i].getElementsByTagName('span')[0].innerHTML === oldName) {
+				childEle[i].click();
+				isClick = true;
+				break;
+			}
+			if (!isClick && $('h6')) {                                   // 之前选中的元素不再显示的情况
+				$('h6').click();
+			}
+		}
+	}
+	else if ($('h6')) {                   // 否则默认选择第一个任务
+		$('h6').click();
+	}
+
+}
+
+// 根据传入的ID生成任务列表
+function makeTaskById(taskIdArr) {
+	var date = [];
+	var taskObj;
+	for (var i = 0; i < taskIdArr.length; i++) {              // 得到所有日期
+		taskObj = getObjByKey(task, 'id', taskIdArr[i]);
+		date.push(taskObj.date);
+	}
+	date = uniqArray(date);
+	date = sortDate(date);      // 排序
+
+	var html = '';
+	for (var i = 0; i < date.length; i++) {
+		html += ''
+			+ '<li>'
+			+     '<h5>' + date[i] + '</h5>'
+			+     '<ul class="item">'
+		for (var j = 0; j < taskIdArr.length; j++) {
+			taskObj = getObjByKey(task, 'id', taskIdArr[j]);
+			if (taskObj.date === date[i]) {
+				if (taskObj.finish === true) {
+					html += ''
+						+         '<li class="task-item task-finish">'
+				}
+				else if (taskObj.finish === false) {
+					html += ''
+						+         '<li class="task-item">'
+				}
+				html += ''
+					+             '<h6 onclick="taskClick(this)">'
+					+                 '<i class="icon-ok"></i><span>' +taskObj.name + '</span><i class="delete icon-minus-circled" onclick="del(event, this)"></i>'
+					+             '</h6>'
+					+         '</li>'
+			}
+		}
+		html += ''
+			+     '</ul>'
+			+ '</li>'
+	}
+	$('.task-wrap').innerHTML = html;
+}
+
+// 对任务时间进行排序
+function sortDate(date) {
+	return date.sort(function (a, b) {
+		return a.replace(/-/g, '') - b.replace(/-/g, '');
+	});
+}
+
+// 筛选菜单点击效果
+function statusClick(ele) {
+	var otherChoose = ele.parentNode.getElementsByTagName('*');
+	for (var i = 0; i < otherChoose.length; i++) {
+		if (otherChoose[i].className === 'choose') {
+			otherChoose[i].className = '';
+			break;
+		}
+	}
+	ele.className = 'choose';
+	var myEle;
+	if (ele.innerHTML.indexOf('所有') !== -1) {
+		myEle = $('.task-wrap').getElementsByTagName('li');
+		for (var i = 0; i < myEle.length; i++) {
+			myEle[i].style.display = 'block';
+		}
+	}
+	else if (ele.innerHTML.indexOf('已完成') !== -1) {
+		myEle = $('.task-wrap').getElementsByTagName('li');
+		for (var i = 0; i < myEle.length; i++) {
+			myEle[i].style.display = 'none';
+		}
+		for (var i = 0; i < myEle.length; i++) {
+			if (myEle[i].className.indexOf('task-finish') !== -1) {
+				myEle[i].style.display = 'block';
+				myEle[i].parentNode.parentNode.style.display = 'block';
+			}
+		}
+	}
+	else if (ele.innerHTML.indexOf('未完成') !== -1) {
+		myEle = $('.task-wrap').getElementsByTagName('li');
+		for (var i = 0; i < myEle.length; i++) {
+			myEle[i].style.display = 'none';
+		}
+		for (var i = 0; i < myEle.length; i++) {
+			if (myEle[i].className.indexOf('task-finish') === -1 && myEle[i].parentNode.className === 'item') {
+				myEle[i].style.display = 'block';
+				myEle[i].parentElement.parentElement.style.display = 'block';
+			}
+		}
+	}
+
+	var h6 = document.getElementsByTagName('h6');        // 默认选择第一个任务
+	for (var i = 0; i < h6.length; i++) {
+		if (h6[i].parentNode.style.display !== 'none') {
+			h6[i].onclick();
+			break;
+		}
+	}
+}
+
+
+
 //保存
 function save() {
 	localStorage.childCate = JSON.stringify(childCate);

@@ -141,7 +141,7 @@ function makeType() {
 		$('h2').click();
 	}
 
-
+	makeTask();
 }
 
 // 得到分类对象的num属性
@@ -177,7 +177,7 @@ function typeClick(ele) {
 		}
 	}
 	ele.className = 'choose';
-
+	makeTask();
 }
 // newType 弹窗
 function newType() {
@@ -268,7 +268,7 @@ function typeAdd() {
 }
 
 //生成任务详细列表
-function makeType() {
+function makeTask() {
 	var oldChoose =$('.task-wrap .choose');
 	$('.status li').click();
 	var ele = $('.type-wrap .choose');
@@ -369,6 +369,9 @@ function sortDate(date) {
 		return a.replace(/-/g, '') - b.replace(/-/g, '');
 	});
 }
+
+
+
 
 // 筛选菜单点击效果
 function statusClick(ele) {

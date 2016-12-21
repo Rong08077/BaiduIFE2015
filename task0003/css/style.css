@@ -324,6 +324,22 @@ header h1 {
 	padding-left: 25px;
 }
 
-.task .icon-check {
+.task .icon-ok {
 	display: none;
 }
+
+.task-finish {
+	color: #4CAF50;
+}
+
+.task-finish .icon-ok {
+	position: relative;
+	left: -20px;
+	display: inline;
+}
+
+.task-finish span {
+	position: relative;
+	left: -20px;
+}
+

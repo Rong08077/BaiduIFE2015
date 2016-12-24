@@ -318,6 +318,7 @@ function makeTask() {
 	else if ($('h6')) {                   // 否则默认选择第一个任务
 		$('h6').click();
 	}
+	makeDetails();
 
 }
 
@@ -370,6 +371,37 @@ function sortDate(date) {
 	});
 }
 
+// 子分类 点击
+function  taskClick(ele) {
+	var otherChoose =ele.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('*');
+	for (var i=0; i < otherChoose.length; i++ ) {
+		if (otherChoose[i].className === 'choose') {
+			otherChoose[i].className = '';
+			break;
+		}
+	}
+	ele.className = 'choose';
+	makeDetails();
+}
+
+// 进入编辑模式，编辑新任务
+function newTask() {
+	$('.task .add').onclick = '';                                                // 暂时取消新建按钮的点击事件，防止重复点击
+
+	document.getElementsByClassName('taskText')[0].value = '';                   // 进入编辑模式
+	document.getElementsByClassName('taskText')[1].value = '';
+	$('.myTextArea').value = '';
+	$('.task-title span').style.display = 'none';
+	$('.task-date span').style.display = 'none';
+	$('.task-content span').style.display = 'none';
+	$('.set').style.display = 'none';
+	$('.taskError').style.display = 'inline';
+	document.getElementsByClassName('taskText')[0].style.display = 'inline';
+	document.getElementsByClassName('taskText')[1].style.display = 'inline';
+	$('.myTextArea').style.display = 'inline';
+	document.getElementsByClassName('btn3')[0].style.display = 'inline';
+	document.getElementsByClassName('btn3')[1].style.display = 'inline';
+}
 
 
 
@@ -425,6 +457,32 @@ function statusClick(ele) {
 }
 
 
+// Detail
+function makeDetails() {
+	var ele = $('.task-wrap .choose');
+	var info = $('.details').getElementsByTagName('span');
+	if (ele) {
+		var name = ele.getElementsByTagName('span')[0].innerHTML;
+		var taskObj = getObjByKey(task, 'name', name);
+		if (taskObj) {
+			info[0].innerHTML = taskObj.name;
+			info[1].innerHTML = taskObj.date;
+			info[2].innerHTML = taskObj.content;
+		}
+		else {                           // ele刚刚被删掉
+			info[0].innerHTML = '';
+			info[1].innerHTML = '';
+			info[2].innerHTML = '';
+		}
+		$('.set').style.display = 'inline';
+	}
+	else {                               // 任务列表为空的情况
+		info[0].innerHTML = '';
+		info[1].innerHTML = '';
+		info[2].innerHTML = '';
+		$('.set').style.display = 'none';
+	}
+}
 
 //保存
 function save() {
